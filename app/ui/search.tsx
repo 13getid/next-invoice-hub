@@ -10,7 +10,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
   const { replace } = useRouter(); // 1. Destructured replace here
 
   const handleSearch = useDebouncedCallback((term: string) => {  
-    console.log('Searching..${term}');
+    console.log( `Searching..${term}`);
     const params = new URLSearchParams(searchParams);
     params.set('page', '1'); // Reset to page 1 on new search
     if (term) {

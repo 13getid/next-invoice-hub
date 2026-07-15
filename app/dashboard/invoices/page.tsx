@@ -24,17 +24,23 @@ export default async function Page(props: {
         <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        {/* FIX: Wrap your Search component in Suspense */}
+        {/* Suspense Boundary 1: Handles useSearchParams() inside <Search /> */}
         <Suspense fallback={<div>Loading search...</div>}>
           <Search placeholder="Search invoices..." />
         </Suspense>
         <CreateInvoice />
       </div>
+      
+      {/* Suspense Boundary 2: Handles async streaming for data table loads */}
       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
+      
       <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
+        {/* FIX: Suspense Boundary 3: Prevents <Pagination /> from crashing static generation */}
+        <Suspense fallback={null}>
+          <Pagination totalPages={totalPages} />
+        </Suspense>
       </div>
     </div>
   );
