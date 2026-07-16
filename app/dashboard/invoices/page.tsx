@@ -6,7 +6,8 @@ import { lusitana } from '@/app/ui/fonts';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/data';
- 
+
+// Note: Exporting as "default" is critical to fix the runtime error!
 export default async function Page(props: {
   searchParams?: Promise<{
     query?: string;
@@ -16,6 +17,7 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || '';
   const currentPage = Number(searchParams?.page) || 1;
+
   const totalPages = await fetchInvoicesPages(query);
 
   return (
@@ -24,23 +26,14 @@ export default async function Page(props: {
         <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        {/* Suspense Boundary 1: Handles useSearchParams() inside <Search /> */}
-        <Suspense fallback={<div>Loading search...</div>}>
-          <Search placeholder="Search invoices..." />
-        </Suspense>
+        <Search placeholder="Search invoices..." />
         <CreateInvoice />
       </div>
-      
-      {/* Suspense Boundary 2: Handles async streaming for data table loads */}
       <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
       </Suspense>
-      
       <div className="mt-5 flex w-full justify-center">
-        {/* FIX: Suspense Boundary 3: Prevents <Pagination /> from crashing static generation */}
-        <Suspense fallback={null}>
-          <Pagination totalPages={totalPages} />
-        </Suspense>
+        <Pagination totalPages={totalPages} />
       </div>
     </div>
   );
