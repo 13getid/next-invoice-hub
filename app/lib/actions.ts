@@ -30,19 +30,15 @@ export async function createInvoice(formData: FormData) {
   const date = new Date().toISOString().split('T')[0];
 
   try {
-    // FIX: Use INSERT INTO instead of UPDATE
     await sql`
       INSERT INTO invoices (customer_id, amount, status, date)
       VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
     `;
   } catch (error) {
     console.error('Database Error:', error);
-    return {
-      message: 'Database Error: Failed to Create Invoice.',
-    };
+    throw new Error('Database Error: Failed to Create Invoice.');
   }
 
-  // FIX: These must run outside the try/catch block
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
 }
@@ -65,9 +61,7 @@ export async function updateInvoice(id: string, formData: FormData) {
     `;
   } catch (error) {
     console.error('Database Error:', error);
-    return {
-      message: 'Database Error: Failed to Update Invoice.',
-    };
+    throw new Error('Database Error: Failed to Update Invoice.');
   }
  
   revalidatePath('/dashboard/invoices');
@@ -76,15 +70,11 @@ export async function updateInvoice(id: string, formData: FormData) {
 
 // 3. DELETE ACTION
 export async function deleteInvoice(id: string) {
-  // FIX: Safely removed the manual 'throw new Error' statement
   try {
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
-    return { message: 'Deleted Invoice.' };
   } catch (error) {
     console.error('Database Error:', error);
-    return {
-      message: 'Database Error: Failed to Delete Invoice.',
-    };
+    throw new Error('Database Error: Failed to Delete Invoice.');
   }
 }
