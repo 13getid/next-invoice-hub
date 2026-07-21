@@ -49,6 +49,11 @@ The application follows the Next.js App Router architecture with server componen
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Login
+   Default login credentials
+- **Email**: user@nextmail.com
+- **Password**: 123456
+
 ## Deployed
 
 Live version: [https://next-invoice-4b3930q9m-ianotieno813-4064s-projects.vercel.app/](https://next-invoice-4b3930q9m-ianotieno813-4064s-projects.vercel.app/)
