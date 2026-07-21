@@ -49,6 +49,10 @@ The application follows the Next.js App Router architecture with server componen
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Deployed
+
+Live version: [https://next-invoice-4b3930q9m-ianotieno813-4064s-projects.vercel.app/](https://next-invoice-4b3930q9m-ianotieno813-4064s-projects.vercel.app/)
+
 ## Credits
 
 This project is built with [Next.js](https://nextjs.org/), the React framework for production. It is inspired by the [Next.js App Router Course](https://nextjs.org/learn) and extends the dashboard tutorial into a complete invoice management solution.
